@@ -2,266 +2,61 @@
 <html lang="he">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MOVIES.pop</title>
-
-<style>
-body {margin:0;font-family:Arial;background:#0b0b0b;color:white}
-
-/* HEADER */
-header {
-display:flex;align-items:center;padding:15px;background:black;
-position:sticky;top:0;z-index:10;
-}
-header img {width:50px;animation:spin 6s linear infinite}
-header h1 {color:#ff2c2c;margin-left:10px;animation:pulse 2s infinite}
-
-/* LOADER */
-#loader {
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:black;display:flex;flex-direction:column;
-justify-content:center;align-items:center;z-index:999;
-}
-#loader img {width:120px;animation:spin 3s infinite}
-#loader h2 {animation:pulse 1.5s infinite}
-
-@keyframes spin {100%{transform:rotate(360deg)}}
-@keyframes pulse {50%{transform:scale(1.2)}}
-
-/* GRID */
-.grid {
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-gap:15px;padding:20px;
-}
-.card {
-background:#111;border-radius:10px;overflow:hidden;
-transition:.3s;position:relative;
-}
-.card:hover {transform:scale(1.05)}
-.card img {width:100%}
-
-/* FAVORITE */
-.fav {
-position:absolute;top:5px;right:5px;
-background:rgba(0,0,0,0.6);
-padding:5px;border-radius:50%;
-cursor:pointer;
-}
-
-/* PLAYER */
-#player {
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:black;display:none;flex-direction:column;z-index:50;
-}
-#player iframe {flex:1;border:none}
-.controls {
-display:flex;justify-content:space-between;padding:10px;
-}
-
-/* REGISTER */
-#registerBox {
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,0.9);
-display:none;justify-content:center;align-items:center;z-index:100;
-}
-.form {
-background:#111;padding:20px;border-radius:10px;
-animation:pop .5s;
-}
-@keyframes pop {
-from{transform:scale(0.5);opacity:0}
-to{transform:scale(1);opacity:1}
-}
-
-input {display:block;margin:10px 0;padding:10px;width:200px}
-button {
-padding:10px;background:red;color:white;border:none;cursor:pointer
-}
-
-/* SECTIONS */
-.section-title {padding:0 20px;color:#ff2c2c}
-
-/* USER */
-#userArea {padding:20px}
-
-.small-list {display:flex;gap:10px;overflow:auto}
-.small-item {background:#222;padding:10px;border-radius:8px}
-
-/* MOBILE */
-@media(max-width:600px){
-.grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
-
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-<img src="https://drive.google.com/file/d/1LlleASm4FtYmEcehyCS6_27LoPVuW7Yh/preview">
-<h2>MOVIES.pop</h2>
-</div>
-
 <header>
-<img src="https://drive.google.com/file/d/1LlleASm4FtYmEcehyCS6_27LoPVuW7Yh/preview">
-<h1>MOVIES.pop</h1>
+  <img src="logo.png" class="logo">
+  <h1>MOVIES.pop</h1>
 </header>
 
 <div id="userArea"></div>
 
-<h2 class="section-title">📺 סדרה</h2>
+<!-- סדרה -->
+<h2>📺 צפוף</h2>
 <div class="grid" id="series"></div>
 
-<h2 class="section-title">🎬 סרטים</h2>
+<!-- סרטים -->
+<h2>🎬 סרטים</h2>
 <div class="grid" id="movies"></div>
 
-<!-- PLAYER -->
-<div id="player">
-<div class="controls">
-<button onclick="closePlayer()">❌</button>
-<a id="downloadBtn" target="_blank">⬇️ הורדה</a>
-</div>
-<iframe id="video"></iframe>
+<!-- נגן -->
+<div id="playerContainer">
+  <iframe id="player" allowfullscreen></iframe>
 </div>
 
-<!-- REGISTER -->
-<div id="registerBox">
-<div class="form">
-<h3>הרשמה</h3>
-<input id="username" placeholder="שם משתמש">
-<input id="email" placeholder="אימייל">
-<label><input type="checkbox"> קבלת עדכונים</label>
-<button onclick="register()">הרשמה</button>
-<p onclick="privacy()">תנאי פרטיות</p>
+<!-- פופאפ הרשמה -->
+<div id="registerPopup">
+  <div class="popupBox">
+    <h2>הירשם כדי לצפות</h2>
+    <input id="username" placeholder="שם משתמש">
+    <input id="email" placeholder="אימייל">
+    
+    <label>
+      <input type="checkbox" id="updates">
+      מאשר קבלת עדכונים
+    </label>
+
+    <button onclick="register()">הרשמה</button>
+    <button onclick="closePopup()">סגור</button>
+
+    <p onclick="showPrivacy()">תנאי פרטיות</p>
+  </div>
 </div>
+
+<!-- תנאי פרטיות -->
+<div id="privacyBox">
+  <h2>תנאי פרטיות - MOVIES.pop</h2>
+  <p>
+  האתר שומר שם משתמש ואימייל בלבד.
+  המידע לא מועבר לצד שלישי.
+  ניתן להסיר מידע בכל עת.
+  </p>
 </div>
 
-<script>
-
-/* LOADER */
-setTimeout(()=>document.getElementById("loader").style.display="none",2000)
-
-/* DATA */
-const imgSeries="https://drive.google.com/file/d/1R6iGf7CoCuIpUpVLhV2RFXTKkjQxu3xn/preview"
-const imgMovie="https://drive.google.com/file/d/1l2EziNyuMrS2r0uLBe478fkSTpuYcw6a/preview"
-
-const season=[
-"https://drive.google.com/file/d/1MoAzl5BX5Se80XOeypPoZhjgLIROjcxC/preview",
-"https://drive.google.com/file/d/1isZiALgbbQWagGzt4GxysVq1_Qfd4tvI/preview",
-"https://drive.google.com/file/d/1tJM6qYOmII0v6ehMcXojDRCixkNBqI2H/preview",
-"https://drive.google.com/file/d/1tJM6qYOmII0v6ehMcXojDRCixkNBqI2H/preview",
-"https://drive.google.com/file/d/1cWYhfwCoo5pJgzUFrpQiTvYMYEbg1ZUc/preview",
-"https://drive.google.com/file/d/1zRH9OKhSk87WZMVtdusb_z0ntZt110_7/preview",
-"https://drive.google.com/file/d/1Ymx5zil-aBBNH77yEhVwHhUaantmcA8h/preview",
-"https://drive.google.com/file/d/1KT6dDH3k9Ye13pKxarqztlTd0JYZfWSX/preview",
-"https://drive.google.com/file/d/1Qe99zYh0Nn6-9qPb3bgSdLmOn1_x7Wn8/preview",
-"https://drive.google.com/file/d/1bclh23QFusb0tUPQWed6eqI6rfRA29aq/preview",
-"https://drive.google.com/file/d/12U8BtVpzx7UiknGLrEl_FgFvfwr1mqi9/preview",
-"https://drive.google.com/file/d/1EhB5t03clS4bF0-RfTVcf2A0Ahvfa3VF/preview",
-"https://drive.google.com/file/d/1iABzmI3QAdVBFC-IvexCMQY20xmCq5GA/preview",
-"https://drive.google.com/file/d/1ER_utCWpc6TfbxK40cggW31THF8MhSpt/preview",
-"https://drive.google.com/file/d/1Ttk3UL1kFXNzYJUpD61NURCMTIJtuae3/preview",
-"https://drive.google.com/file/d/1X71gUsBhJtezYlJknMKHnz8x3hUdi2Vj/preview",
-"https://drive.google.com/file/d/1X71gUsBhJtezYlJknMKHnz8x3hUdi2Vj/preview",
-"https://drive.google.com/file/d/1HO42GsUOwp6R4sz6rbDdmhe219GoCGso/preview",
-"https://drive.google.com/file/d/1Fbu4IYyLZ5mSRQPSt6zgt0um4ra0Ng_h/preview",
-"https://drive.google.com/file/d/1Kq-J5fBAM9KlYnf1_nK0zA-VL3kZkrj6/preview"
-]
-
-const movies=[
-{title:"Zootropolis",url:"https://drive.google.com/file/d/14_z-C_3QL3rlmxP_JI8H4Ew_tj8M0FjQ/preview"}
-]
-
-/* BUILD UI */
-season.forEach((u,i)=>{
-document.getElementById("series").innerHTML+=`
-<div class="card">
-<div class="fav" onclick="fav('פרק ${i+1}')">❤️</div>
-<img src="${imgSeries}" onclick="play('${u}','פרק ${i+1}')">
-<p>פרק ${i+1}</p>
-</div>`
-})
-
-movies.forEach(m=>{
-document.getElementById("movies").innerHTML+=`
-<div class="card">
-<div class="fav" onclick="fav('${m.title}')">❤️</div>
-<img src="${imgMovie}" onclick="play('${m.url}','${m.title}')">
-<p>${m.title}</p>
-</div>`
-})
-
-/* PLAYER */
-function play(url,name){
-if(!localStorage.getItem("user")){
-document.getElementById("registerBox").style.display="flex";return}
-document.getElementById("player").style.display="flex"
-document.getElementById("video").src=url
-document.getElementById("downloadBtn").href=url
-recent(name)
-}
-
-function closePlayer(){
-document.getElementById("player").style.display="none"
-document.getElementById("video").src=""
-}
-
-/* REGISTER */
-function register(){
-localStorage.setItem("user",document.getElementById("username").value)
-location.reload()
-}
-
-/* FAVORITES */
-function fav(item){
-let f=JSON.parse(localStorage.getItem("fav"))||[]
-f.push(item)
-localStorage.setItem("fav",JSON.stringify(f))
-alert("נוסף לאהובים ❤️")
-}
-
-/* RECENT */
-function recent(item){
-let r=JSON.parse(localStorage.getItem("recent"))||[]
-r.unshift(item)
-localStorage.setItem("recent",JSON.stringify(r))
-}
-
-/* USER */
-function loadUser(){
-let u=localStorage.getItem("user")
-if(u){
-let fav=JSON.parse(localStorage.getItem("fav"))||[]
-let rec=JSON.parse(localStorage.getItem("recent"))||[]
-
-document.getElementById("userArea").innerHTML=`
-<h2>ברוך הבא ${u}</h2>
-<button onclick="logout()">התנתק</button>
-
-<h3>👁️ נצפה לאחרונה</h3>
-<div class="small-list">${rec.map(x=>`<div class="small-item">${x}</div>`).join("")}</div>
-
-<h3>❤️ אהובים</h3>
-<div class="small-list">${fav.map(x=>`<div class="small-item">${x}</div>`).join("")}</div>
-
-<a href="mailto:movies0pop0@gmail.com">📬 נשמח לשמוע</a>
-`
-}
-}
-loadUser()
-
-function logout(){
-localStorage.clear();location.reload()
-}
-
-/* PRIVACY */
-function privacy(){
-alert("MOVIES.pop שומרת שם משתמש ואימייל בלבד. ניתן לבקש מחיקה בכל עת.")
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
