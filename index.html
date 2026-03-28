@@ -15,9 +15,16 @@
 
 <div id="userArea"></div>
 
-<!-- סדרה -->
+<!-- סדרות -->
 <h2>📺 צפוף</h2>
-<div class="grid" id="series"></div>
+<div class="grid" id="seasons"></div>
+
+<!-- פרקים (נפתח בלחיצה) -->
+<div id="episodesSection">
+  <h2 id="seasonTitle"></h2>
+  <button onclick="closeEpisodes()">⬅ חזור</button>
+  <div class="grid" id="episodes"></div>
+</div>
 
 <!-- סרטים -->
 <h2>🎬 סרטים</h2>
@@ -28,7 +35,7 @@
   <iframe id="player" allowfullscreen></iframe>
 </div>
 
-<!-- פופאפ הרשמה -->
+<!-- הרשמה -->
 <div id="registerPopup">
   <div class="popupBox">
     <h2>הירשם כדי לצפות</h2>
@@ -36,7 +43,7 @@
     <input id="email" placeholder="אימייל">
     
     <label>
-      <input type="checkbox" id="updates">
+      <input type="checkbox">
       מאשר קבלת עדכונים
     </label>
 
@@ -47,14 +54,9 @@
   </div>
 </div>
 
-<!-- תנאי פרטיות -->
 <div id="privacyBox">
   <h2>תנאי פרטיות - MOVIES.pop</h2>
-  <p>
-  האתר שומר שם משתמש ואימייל בלבד.
-  המידע לא מועבר לצד שלישי.
-  ניתן להסיר מידע בכל עת.
-  </p>
+  <p>המידע נשמר לשימוש האתר בלבד.</p>
 </div>
 
 <script src="script.js"></script>
