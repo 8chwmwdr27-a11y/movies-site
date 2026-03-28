@@ -69,3 +69,20 @@ body{
   background:#222;
   padding:20px;
 }
+#episodesSection{
+  display:none;
+}
+
+button{
+  padding:8px;
+  margin:5px;
+  cursor:pointer;
+  border:none;
+  border-radius:5px;
+}
+
+button:hover{
+  background:red;
+  color:white;
+}
+
