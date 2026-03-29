@@ -151,12 +151,6 @@ movies.forEach(m=>{
     </div>
   `;
 
-  // נגן
-  div.querySelector(".playBtn").onclick = (e)=>{
-    e.stopPropagation();
-    play(m.url);
-  };
-
   // אהובים
   div.querySelector(".favBtn").onclick = (e)=>{
     e.stopPropagation();
@@ -166,10 +160,24 @@ movies.forEach(m=>{
   moviesDiv.appendChild(div);
 });
   // נגן
-  div.querySelector(".playBtn").onclick = (e)=>{
-    e.stopPropagation();
-    play(m.url);
-  };
+function play(url){
+  if(!getUser()){
+    openPopup();
+    return;
+  }
+
+  const player = document.getElementById("player");
+  const container = document.getElementById("playerContainer");
+
+  player.src = url;
+
+  container.classList.add("active");
+
+  addToRecent(url);
+
+  // גלילה לנגן
+  container.scrollIntoView({behavior:"smooth"});
+}
 
   // אהובים
   div.querySelector(".favBtn").onclick = (e)=>{
