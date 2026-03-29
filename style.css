@@ -1,143 +1,39 @@
-body{
-  background:#111;
-  color:white;
-  font-family:sans-serif;
-  text-align:center;
+body {
+  margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:#f0f2f5; color:#333; direction:rtl;
 }
 
-.logo{
-  width:100px;
-  animation:spin 5s linear infinite;
-}
+#appContainer { max-width:1200px; margin:0 auto; padding:20px; }
 
-@keyframes spin{
-  0%{transform:rotate(0)}
-  100%{transform:rotate(360deg)}
-}
+header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
 
-.grid{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-}
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
 
-.card{
-  width:150px;
-  margin:10px;
-  cursor:pointer;
-  transition:0.3s;
-}
+.card { position:relative; border-radius:12px; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,0.1); cursor:pointer; transition:transform 0.2s; background:#fff; }
+.card:hover { transform:scale(1.05); }
 
-.card:hover{
-  transform:scale(1.1);
-}
+.card img { width:100%; display:block; }
 
-.card img{
-  width:100%;
-  border-radius:10px;
-}
-
-#playerContainer{
-  margin-top:20px;
-}
-
-#player{
-  width:80%;
-  height:400px;
-}
-
-#registerPopup{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.9);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.popupBox{
-  background:#222;
-  padding:20px;
-  border-radius:10px;
-}
-
-#privacyBox{
-  display:none;
-  background:#222;
-  padding:20px;
-}
-#episodesSection{
-  display:none;
-}
-
-button{
-  padding:8px;
-  margin:5px;
-  cursor:pointer;
-  border:none;
-  border-radius:5px;
-}
-
-button:hover{
-  background:red;
-  color:white;
-}
-/* 🎬 סרטים - עיצוב נטפליקס */
-
-.card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.card img {
-  width: 100%;
-  transition: 0.4s;
-}
-
-.card:hover img {
-  transform: scale(1.2);
-  filter: brightness(0.5);
-}
-
-/* שכבת מידע */
 .overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  opacity: 0;
-  transition: 0.4s;
+  position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:#fff; padding:10px; display:flex; justify-content:space-between; align-items:center;
 }
 
-.card:hover .overlay {
-  opacity: 1;
-}
+button { border:none; background:#ff5050; color:#fff; padding:6px 10px; border-radius:6px; cursor:pointer; transition:0.2s; }
+button:hover { background:#ff1a1a; }
 
-.playBtn {
-  background: red;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-}
+#playerContainer { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; justify-content:center; align-items:center; z-index:1000; }
+#playerContainer.active { display:flex; }
+#player { width:80%; height:80%; border:none; border-radius:12px; }
 
-.favBtn {
-  background: transparent;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-}
+.closeBtn { position:absolute; top:20px; right:20px; font-size:24px; background:none; color:#fff; }
 
-/* נגן אנימציה */
-#playerContainer {
-  opacity: 0;
-  transition: 0.5s;
-}
+.popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2); z-index:1000; }
+.popup.hidden { display:none; }
 
-#playerContainer.active {
-  opacity: 1;
-}
+#adScreen { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column; background:#111; color:#fff; z-index:2000; }
+#adBackground { position:absolute; width:100%; height:100%; background:radial-gradient(circle, rgba(255,255,255,0.1), rgba(0,0,0,0.8)); animation:pulse 3s infinite; }
+#adScreen img { width:150px; z-index:10; }
+#adScreen h1 { margin-top:10px; font-size:32px; z-index:10; }
+
+@keyframes pulse { 0%,100%{opacity:0.2;}50%{opacity:0.5;} }
+.hidden { display:none; }
