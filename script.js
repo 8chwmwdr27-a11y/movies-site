@@ -1,6 +1,13 @@
 const movies = [
   { name:"זוטרופוליס 1", url:"https://drive.google.com/file/d/14_z-C_3QL3rlmxP_JI8H4Ew_tj8M0FjQ/preview", img:"images/zootopia1.png" },
   { name:"זוטרופוליס 2", url:"https://drive.google.com/file/d/1HrTPtCnqi9PPmlbMZ6Zl7dLO_Qs4dUMq/preview", img:"images/zootopia2.png" }
+// =================== הוסף סרטים כאן ===================
+// העתק את האובייקט הבא והדבק כאן:
+{
+  name: "שם הסרט החדש",
+  url: "קישור הסרט עם /preview",
+  img: "images/שם_קובץ_תמונה.png"
+},
 ];
 
 const seasonsData = [
