@@ -2,61 +2,53 @@
 <html lang="he">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MOVIES.pop</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <img src="logo.png" class="logo">
+<!-- מסך פרסומת -->
+<div id="adScreen">
+  <div id="adBackground"></div>
+  <img id="adLogo" src="images/logo.png" alt="MOVIES.pop">
   <h1>MOVIES.pop</h1>
-</header>
-
-<div id="userArea"></div>
-
-<!-- סדרות -->
-<h2>📺 צפוף</h2>
-<div class="grid" id="seasons"></div>
-
-<!-- פרקים (נפתח בלחיצה) -->
-<div id="episodesSection">
-  <h2 id="seasonTitle"></h2>
-  <button onclick="closeEpisodes()">⬅ חזור</button>
-  <div class="grid" id="episodes"></div>
 </div>
 
-<!-- סרטים -->
-<h2>🎬 סרטים</h2>
-<div class="grid" id="movies"></div>
+<!-- קונטיינר ראשי -->
+<div id="appContainer" class="hidden">
+  <header>
+    <h1>MOVIES.pop</h1>
+    <div id="userInfo"></div>
+  </header>
 
-<!-- נגן -->
-<div id="playerContainer">
-  <iframe id="player" allowfullscreen></iframe>
-</div>
-
-<!-- הרשמה -->
-<div id="registerPopup">
-  <div class="popupBox">
-    <h2>הירשם כדי לצפות</h2>
-    <input id="username" placeholder="שם משתמש">
-    <input id="email" placeholder="אימייל">
-    
-    <label>
-      <input type="checkbox">
-      מאשר קבלת עדכונים
-    </label>
-
-    <button onclick="register()">הרשמה</button>
-    <button onclick="closePopup()">סגור</button>
-
-    <p onclick="showPrivacy()">תנאי פרטיות</p>
+  <!-- פופאפ הרשמה -->
+  <div id="registerPopup" class="popup hidden">
+    <h2>ברוכים הבאים!</h2>
+    <input type="text" id="username" placeholder="שם משתמש">
+    <input type="email" id="email" placeholder="אימייל לעדכונים">
+    <label><input type="checkbox" id="newsletter"> שלח עדכונים למייל</label>
+    <p>בלחיצה על "תנאי פרטיות" תפתח תנאי פרטיות רשמיים</p>
+    <button onclick="registerUser()">הרשם</button>
   </div>
-</div>
 
-<div id="privacyBox">
-  <h2>תנאי פרטיות - MOVIES.pop</h2>
-  <p>המידע נשמר לשימוש האתר בלבד.</p>
+  <!-- סרטים -->
+  <section>
+    <h2>🎬 סרטים</h2>
+    <div id="movies" class="grid"></div>
+  </section>
+
+  <!-- סדרות -->
+  <section>
+    <h2>📺 סדרות</h2>
+    <div id="seasons" class="grid"></div>
+  </section>
+
+  <!-- נגן -->
+  <div id="playerContainer">
+    <iframe id="player" src="" allowfullscreen></iframe>
+    <button onclick="closePlayer()" class="closeBtn">✖</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
