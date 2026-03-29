@@ -137,6 +137,49 @@ function closeEpisodes(){
 // סרטים
 const moviesDiv = document.getElementById("movies");
 
+movies.forEach(m=>{
+  const div = document.createElement("div");
+  div.className="card";
+
+  div.innerHTML = `
+    <img src="${m.img}">
+    
+    <div class="overlay">
+      <p>${m.name}</p>
+      <button class="playBtn">▶ נגן</button>
+      <button class="favBtn">❤️</button>
+    </div>
+  `;
+
+  // נגן
+  div.querySelector(".playBtn").onclick = (e)=>{
+    e.stopPropagation();
+    play(m.url);
+  };
+
+  // אהובים
+  div.querySelector(".favBtn").onclick = (e)=>{
+    e.stopPropagation();
+    addFav(m.name);
+  };
+
+  moviesDiv.appendChild(div);
+});
+  // נגן
+  div.querySelector(".playBtn").onclick = (e)=>{
+    e.stopPropagation();
+    play(m.url);
+  };
+
+  // אהובים
+  div.querySelector(".favBtn").onclick = (e)=>{
+    e.stopPropagation();
+    addFav(m.name);
+  };
+
+  moviesDiv.appendChild(div);
+}); moviesDiv = document.getElementById("movies");
+
 const movies = [
   {
     name:"זוטרופוליס 1",
